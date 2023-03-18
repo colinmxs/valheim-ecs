@@ -11,6 +11,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "actions", "actions", "{65D02589-CC03-41C5-BD29-1D7CD588583F}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\cdk-deploy.yml = .github\workflows\cdk-deploy.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +41,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{65D02589-CC03-41C5-BD29-1D7CD588583F} = {1036740B-9128-4F56-B253-579CFA0D1B80}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {85826017-C776-4995-A650-9F568066C996}
 	EndGlobalSection
 EndGlobal
