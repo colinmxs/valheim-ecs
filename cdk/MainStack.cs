@@ -29,9 +29,9 @@ namespace Cdk
                 Image = ContainerImage.FromRegistry("lloesche/valheim-server"),
                 Environment = new Dictionary<string, string>
                 {
-                    { "SERVER_NAME", "<your-server-name>" },
-                    { "WORLD_NAME", "<your-world-name>" },
-                    { "SERVER_PASS", "<your-server-password>" }
+                    { "SERVER_NAME", (string)scope.Node.TryGetContext("valheim-server/server-name") },
+                    { "WORLD_NAME", (string)scope.Node.TryGetContext("valheim-server/world-name") },
+                    { "SERVER_PASS", (string)scope.Node.TryGetContext("valheim-server/server-password") }
                 }
             });
 

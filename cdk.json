@@ -1,5 +1,5 @@
 {
-  "app": "dotnet run --project src/Cdk/Cdk.csproj",
+  "app": "dotnet run --project cdk/Cdk.csproj",
   "watch": {
     "include": [
       "**"
@@ -37,6 +37,9 @@
     "@aws-cdk/aws-iam:importedRoleStackSafeDefaultPolicyName": true,
     "@aws-cdk/aws-s3:serverAccessLogsUseBucketPolicy": true,
     "@aws-cdk/aws-route53-patters:useCertificate": true,
-    "@aws-cdk/customresources:installLatestAwsSdkDefault": false
+    "@aws-cdk/customresources:installLatestAwsSdkDefault": false,
+    "valheim-server/server-name": "SERVER_NAME",
+    "valheim-server/server-password": "SERVER_PASSWORD",
+    "valheim-server/world-name": "WORLD_NAME"
   }
 }
