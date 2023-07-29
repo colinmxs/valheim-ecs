@@ -3,14 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Cdk
+namespace Valheim
 {
     sealed class Program
     {
         public static void Main(string[] args)
         {
             var app = new App();
-            new MainStack(app, "CdkStack", new StackProps { });
+            new MainStack(app, "ValheimStack", new StackProps { });
             app.Synth();
         }
     }

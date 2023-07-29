@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33502.453
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cdk", "Cdk\Cdk.csproj", "{8B9AAAE0-1C93-4453-BC87-C4B8840E3234}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Valheim", "Cdk\Valheim.csproj", "{8B9AAAE0-1C93-4453-BC87-C4B8840E3234}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1036740B-9128-4F56-B253-579CFA0D1B80}"
 	ProjectSection(SolutionItems) = preProject

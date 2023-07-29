@@ -6,7 +6,7 @@ using Constructs;
 using System.Collections.Generic;
 using Amazon.CDK.AWS.ElasticLoadBalancingV2;
 
-namespace Cdk
+namespace Valheim
 {
     public class MainStack : Stack
     {
@@ -97,7 +97,7 @@ namespace Cdk
             {
                 Vpc = vpc,
                 Port = 80,
-                Targets = new[] { service.LoadBalancerTarget(new LoadBalancerTargetOptions 
+                Targets = new[] { service.LoadBalancerTarget(new LoadBalancerTargetOptions
                 {
                     ContainerName = "ValheimContainer",
                     ContainerPort = 80,
@@ -107,7 +107,7 @@ namespace Cdk
                 {
                     Interval = Duration.Seconds(30),
                     Path = "/",
-                    Protocol = Amazon.CDK.AWS.ElasticLoadBalancingV2.Protocol.HTTP                    
+                    Protocol = Amazon.CDK.AWS.ElasticLoadBalancingV2.Protocol.HTTP
                 }
             });
 
