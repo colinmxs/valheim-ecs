@@ -14,13 +14,7 @@ namespace Valheim
     {
         internal MainStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
         {
-            var accountParam = new Amazon.CDK.CfnParameter(this, "Account", new Amazon.CDK.CfnParameterProps
-            {
-                Type = "String",
-                Description = "AWS Account ID"
-            });
-            
-            var world = new ValheimWorld(this, "ValheimWorld", accountParam.ValueAsString);
+            var world = new ValheimWorld(this, "ValheimWorld");
         }
     }
 }
