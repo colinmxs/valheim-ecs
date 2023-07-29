@@ -18,7 +18,7 @@ namespace Cdk
                 Vpc = vpc
             });
 
-            var taskDefinition = new FargateTaskDefinition(this, "ValheimTaskDefinition", new FargateTaskDefinitionProps
+            var taskDefinition = new FargateTaskDefinition(this, "ValheimTask", new FargateTaskDefinitionProps
             {
                 Cpu = 256,
                 MemoryLimitMiB = 512
@@ -29,25 +29,17 @@ namespace Cdk
                 Image = ContainerImage.FromRegistry("lloesche/valheim-server"),
                 Environment = new Dictionary<string, string>
                 {
-                    { "SERVER_NAME", (string)scope.Node.TryGetContext("valheim-server/server-name") },
-                    { "WORLD_NAME", (string)scope.Node.TryGetContext("valheim-server/world-name") },
-                    { "SERVER_PASS", (string)scope.Node.TryGetContext("valheim-server/server-password") }
+                    { "SERVER_NAME", "My Valheim Server" },
+                    { "WORLD_NAME", "MyWorld" },
+                    { "SERVER_PASS", "secret" }
                 }
             });
-
-            var securityGroup = SecurityGroup.FromSecurityGroupId(this, "ValheimSecurityGroup", cluster.Connections.SecurityGroups[0].SecurityGroupId);
-
-            securityGroup.AddIngressRule(Peer.AnyIpv4(), Port.Udp(2456), "Allow Valheim traffic");
-            securityGroup.AddIngressRule(Peer.AnyIpv4(), Port.Udp(2457), "Allow Valheim traffic");
-            securityGroup.AddIngressRule(Peer.AnyIpv4(), Port.Udp(2458), "Allow Valheim traffic");
 
             new ApplicationLoadBalancedFargateService(this, "ValheimService", new ApplicationLoadBalancedFargateServiceProps
             {
                 Cluster = cluster,
                 TaskDefinition = taskDefinition,
-                PublicLoadBalancer = true,
-                AssignPublicIp = true,
-                DesiredCount = 1
+                PublicLoadBalancer = true
             });
         }
     }
