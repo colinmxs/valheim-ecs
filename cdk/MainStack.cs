@@ -23,7 +23,8 @@ namespace Cdk
             var taskDefinition = new TaskDefinition(this, "ValheimTask", new TaskDefinitionProps
             {
                 NetworkMode = NetworkMode.AWS_VPC,
-                Family = "valheim"
+                Family = "valheim",
+                Compatibility = Compatibility.FARGATE
             });
 
             // Define the Valheim container with the appropriate image and mappings
