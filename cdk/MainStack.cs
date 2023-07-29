@@ -12,19 +12,21 @@ namespace Cdk
     {
         internal MainStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
         {
-            var vpc = new Vpc(this, "ValheimVPC");
-
-            var cluster = new Cluster(this, "ValheimCluster", new ClusterProps
+            // Create a VPC to deploy the container to
+            var vpc = new Vpc(this, "ValheimVpc", new VpcProps
             {
-                Vpc = vpc
+                MaxAzs = 2,
+                NatGateways = 1
             });
 
-            var taskDefinition = new FargateTaskDefinition(this, "ValheimTask", new FargateTaskDefinitionProps
+            // Create a task definition with some basic settings
+            var taskDefinition = new TaskDefinition(this, "ValheimTask", new TaskDefinitionProps
             {
-                Cpu = 256,
-                MemoryLimitMiB = 512
+                NetworkMode = NetworkMode.AWS_VPC,
+                Family = "valheim"
             });
 
+            // Define the Valheim container with the appropriate image and mappings
             taskDefinition.AddContainer("ValheimContainer", new ContainerDefinitionOptions
             {
                 Image = ContainerImage.FromRegistry("lloesche/valheim-server"),
@@ -53,22 +55,54 @@ namespace Cdk
                         ContainerPort = 2458,
                         HostPort = 2458,
                         Protocol = Amazon.CDK.AWS.ECS.Protocol.UDP
-                    },
-                    new PortMapping
-                    {
-                        ContainerPort = 80,
-                        HostPort = 80,
-                        Protocol = Amazon.CDK.AWS.ECS.Protocol.TCP
                     }
                 }
             });
-            
-            new ApplicationLoadBalancedFargateService(this, "ValheimService", new ApplicationLoadBalancedFargateServiceProps
+
+            // Create a cluster where we can deploy the container
+            var cluster = new Cluster(this, "ValheimCluster", new ClusterProps
+            {
+                Vpc = vpc
+            });
+
+            // Create a service with our task definition and cluster
+            var service = new FargateService(this, "ValheimService", new FargateServiceProps
             {
                 Cluster = cluster,
-                TaskDefinition = taskDefinition,
-                PublicLoadBalancer = true,
-                
+                TaskDefinition = taskDefinition
+            });
+
+            // Create a load balancer for the service to listen on
+            var loadBalancer = new ApplicationLoadBalancer(this, "ValheimLoadBalancer", new Amazon.CDK.AWS.ElasticLoadBalancingV2.ApplicationLoadBalancerProps
+            {
+                Vpc = vpc,
+                InternetFacing = true
+            });
+
+            // Allow traffic to the load balancer on the appropriate ports
+            loadBalancer.Connections.AllowFromAnyIpv4(Port.Tcp(80), "Allow HTTP Traffic");
+            loadBalancer.Connections.AllowFromAnyIpv4(Port.Tcp(443), "Allow HTTPS Traffic");
+
+            // Create a target group for the service to send traffic to
+            var targetGroup = new ApplicationTargetGroup(this, "ValheimTargetGroup", new ApplicationTargetGroupProps
+            {
+                Vpc = vpc,
+                Port = 80,
+                Targets = new[] { service },
+                HealthCheck = new Amazon.CDK.AWS.ElasticLoadBalancingV2.HealthCheck
+                {
+                    Interval = Duration.Seconds(30),
+                    Path = "/",
+                    Protocol = Amazon.CDK.AWS.ElasticLoadBalancingV2.Protocol.HTTP                    
+                }
+            });
+
+            // Create a listener for the load balancer to listen on
+            var listener = loadBalancer.AddListener("ValheimListener", new BaseApplicationListenerProps
+            {
+                Protocol = ApplicationProtocol.HTTP,
+                Port = 80,
+                DefaultTargetGroups = new[] { targetGroup }
             });
         }
     }
