@@ -52,26 +52,7 @@ namespace Cdk
                         ContainerPort = 2458,
                         HostPort = 2458,
                         Protocol = Amazon.CDK.AWS.ECS.Protocol.UDP
-                    },
-                    new PortMapping
-                    {
-                        ContainerPort = 2456,
-                        HostPort = 2456,
-                        Protocol = Amazon.CDK.AWS.ECS.Protocol.TCP
-                    },
-                    new PortMapping
-                    {
-                        ContainerPort = 2457,
-                        HostPort = 2457,
-                        Protocol = Amazon.CDK.AWS.ECS.Protocol.TCP
-                    },
-                    new PortMapping
-                    {
-                        ContainerPort = 2458,
-                        HostPort = 2458,
-                        Protocol = Amazon.CDK.AWS.ECS.Protocol.TCP
                     }
-
                 }
             });
 
