@@ -47,8 +47,7 @@ namespace Cdk
                 TaskDefinition = taskDefinition,
                 PublicLoadBalancer = true,
                 AssignPublicIp = true,
-                DesiredCount = 1,
-
+                DesiredCount = 1
             });
         }
     }
