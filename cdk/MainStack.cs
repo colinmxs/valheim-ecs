@@ -24,7 +24,9 @@ namespace Cdk
             {
                 NetworkMode = NetworkMode.AWS_VPC,
                 Family = "valheim",
-                Compatibility = Compatibility.FARGATE
+                Compatibility = Compatibility.FARGATE,
+                Cpu = "2048",
+                MemoryMiB = "4096"
             });
 
             // Define the Valheim container with the appropriate image and mappings
