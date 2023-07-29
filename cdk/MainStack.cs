@@ -91,7 +91,12 @@ namespace Cdk
             {
                 Vpc = vpc,
                 Port = 80,
-                Targets = new[] { service },
+                Targets = new[] { service.LoadBalancerTarget(new LoadBalancerTargetOptions 
+                {
+                    ContainerName = "ValheimContainer",
+                    ContainerPort = 80,
+                    Protocol = Amazon.CDK.AWS.ECS.Protocol.UDP
+                }) },
                 HealthCheck = new Amazon.CDK.AWS.ElasticLoadBalancingV2.HealthCheck
                 {
                     Interval = Duration.Seconds(30),
