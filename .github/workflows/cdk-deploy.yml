@@ -19,4 +19,4 @@ jobs:
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
         aws-region: us-west-2
     - name: Deploy CDK app
-      run: cdk deploy --require-approval never --all
+      run: cdk deploy --require-approval never --all --parameters Account=${{ secrets.AWS_ACCOUNT_ID }}
