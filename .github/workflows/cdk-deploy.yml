@@ -19,7 +19,7 @@ jobs:
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
         aws-region: us-west-2
     - name: replace tokens
-      uses: plitton/action-replace-tokens@v1.0.0
+      uses: plitton/action-replace-env-vars@v1.0.0
       with:
         files: '**/*.json'
         encoding: 'utf8'
