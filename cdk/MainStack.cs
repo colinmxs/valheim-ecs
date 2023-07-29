@@ -58,6 +58,12 @@ namespace Cdk
                         ContainerPort = 2458,
                         HostPort = 2458,
                         Protocol = Amazon.CDK.AWS.ECS.Protocol.UDP
+                    },
+                    new PortMapping
+                    {
+                        ContainerPort = 80,
+                        HostPort = 80,
+                        Protocol = Amazon.CDK.AWS.ECS.Protocol.TCP
                     }
                 }
             });
@@ -94,7 +100,8 @@ namespace Cdk
                 Targets = new[] { service.LoadBalancerTarget(new LoadBalancerTargetOptions 
                 {
                     ContainerName = "ValheimContainer",
-                    Protocol = Amazon.CDK.AWS.ECS.Protocol.UDP
+                    ContainerPort = 80,
+                    Protocol = Amazon.CDK.AWS.ECS.Protocol.TCP
                 }) },
                 HealthCheck = new Amazon.CDK.AWS.ElasticLoadBalancingV2.HealthCheck
                 {
