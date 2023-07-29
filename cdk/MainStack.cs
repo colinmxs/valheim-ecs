@@ -4,6 +4,7 @@ using Amazon.CDK.AWS.ECS.Patterns;
 using Amazon.CDK.AWS.ECS;
 using Constructs;
 using System.Collections.Generic;
+using Amazon.CDK.AWS.ElasticLoadBalancingV2;
 
 namespace Cdk
 {
