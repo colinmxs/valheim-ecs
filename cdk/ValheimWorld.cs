@@ -18,11 +18,13 @@ namespace Valheim
     //NAME: 'CDK Valheim',
     //WORLD: 'Amazon',
     //PASSWORD: 'fargate'
-        public ValheimWorld(Construct scope, string id) : base(scope, id)
+        public ValheimWorld(Construct scope, string id, string accountId) : base(scope, id)
         {
             var vpc = Vpc.FromLookup(this, "DefaultVpc", new VpcLookupOptions
             {
-                IsDefault = true
+                IsDefault = true,
+                Region = "us-west-2",
+                OwnerAccountId = accountId
             });
 
             var cluster = new Cluster(this, "ValheimCluster", new ClusterProps
@@ -69,7 +71,7 @@ namespace Valheim
                     { "NAME", "CDK Valheim" },
                     { "WORLD", "Amazon" },
                     { "PASSWORD", "fargate" }
-                }   
+                } 
             });
 
             containerDefinition.AddMountPoints(new MountPoint
@@ -84,7 +86,7 @@ namespace Valheim
                 Cluster = cluster,
                 AssignPublicIp = true,
                 TaskDefinition = taskDefinition,
-                DesiredCount = 1
+                DesiredCount = 1            
             });
 
             // Allow TCP 2049 for EFS
