@@ -18,16 +18,13 @@ jobs:
         role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHubAction-AssumeRoleWithAction
         role-session-name: GitHub_to_AWS_via_FederatedOIDC
         aws-region: us-west-2
-    - name: replace tokens
-      uses: plitton/action-replace-env-vars@v1.0.0
+    - name: Replace tokens
+      uses: cschleiden/replace-tokens@v1.1
       with:
-        files: '**/*.json'
-        encoding: 'utf8'
         tokenPrefix: '#{'
         tokenSuffix: '}#'
-        data: |
-          {
-            "AWS_ACCOUNT_ID": "${{ secrets.AWS_ACCOUNT_ID }}",
-          }
+        files: '**/*/*.json'
+      env:
+        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
     - name: Deploy CDK app
       run: cdk deploy --require-approval never --all
