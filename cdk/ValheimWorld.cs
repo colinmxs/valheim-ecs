@@ -67,9 +67,9 @@ namespace Valheim
                 }), 
                 Environment = new Dictionary<string, string>
                 {
-                    { "SERVER_NAME", "2456" },
+                    { "SERVER_PORT", "2456" },
                     { "SERVER_NAME", props.World },
-                    { "SERVER_NAME", props.Name },
+                    { "WORLD_NAME", props.Name },
                     { "SERVER_PASS", props.Password }
                 }
             });
