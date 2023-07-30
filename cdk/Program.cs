@@ -26,7 +26,11 @@ namespace Valheim
                 }, 
                 World = world,
                 Name = name,
-                Password = password
+                Password = password,
+                Tags = new Dictionary<string, string>
+                {
+                    { "Billing", "smith.colin00@gmail.com" }
+                }
             });
             app.Synth();
         }
