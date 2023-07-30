@@ -3,6 +3,7 @@ using Constructs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Valheim.MainStack;
 
 namespace Valheim
 {
@@ -12,13 +13,20 @@ namespace Valheim
         {
             var app = new App();
             var accountId = app.Node.TryGetContext("AccountId") as string;
-            new MainStack(app, "ValheimStack", new StackProps 
+            var world = app.Node.TryGetContext("World") as string;
+            var name = app.Node.TryGetContext("Name") as string;
+            var password = app.Node.TryGetContext("Password") as string;
+
+            new MainStack(app, "ValheimStack", new MainStackProps 
             {
                 Env = new Amazon.CDK.Environment
                 {
                     Account = accountId,
                     Region = "us-west-2"
-                }
+                }, 
+                World = world,
+                Name = name,
+                Password = password
             });
             app.Synth();
         }

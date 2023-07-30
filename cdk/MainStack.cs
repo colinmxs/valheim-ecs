@@ -12,9 +12,20 @@ namespace Valheim
 {
     public class MainStack : Stack
     {
-        internal MainStack(Construct scope, string id, IStackProps props = null) : base(scope, id, props)
+        public class MainStackProps : StackProps
         {
-            var world = new ValheimWorld(this, "ValheimWorld");
+            public string World { get; set; }
+            public string Name { get; set; }
+            public string Password { get; set; }
+        }
+        internal MainStack(Construct scope, string id, MainStackProps props = null) : base(scope, id, props)
+        {
+            var world = new ValheimWorld(this, "ValheimWorld", new ValheimWorldProps 
+            {
+                World = props.World,
+                Name = props.Name,
+                Password = props.Password
+            });
         }
     }
 }

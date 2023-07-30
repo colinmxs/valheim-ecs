@@ -26,5 +26,8 @@ jobs:
         files: 'cdk.json'
       env:
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+        WORLD: ${{ secrets.WORLD }}
+        NAME: ${{ secrets.NAME }}
+        PASSWORD: ${{ secrets.PASSWORD }}
     - name: Deploy CDK app
       run: cdk deploy --require-approval never --all

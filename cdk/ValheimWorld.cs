@@ -12,13 +12,15 @@ using System.Threading.Tasks;
 
 namespace Valheim
 {
-    internal class ValheimWorld : Construct
+    public class ValheimWorldProps
     {
-    //    PORT: '2456',
-    //NAME: 'CDK Valheim',
-    //WORLD: 'Amazon',
-    //PASSWORD: 'fargate'
-        public ValheimWorld(Construct scope, string id) : base(scope, id)
+        public string Name { get; set; }
+        public string World { get; set; }
+        public string Password { get; set; }
+    }
+    internal class ValheimWorld : Construct
+    {   
+        public ValheimWorld(Construct scope, string id, ValheimWorldProps props) : base(scope, id)
         {
             var vpc = Vpc.FromLookup(this, "DefaultVpc", new VpcLookupOptions
             {
@@ -52,8 +54,7 @@ namespace Valheim
                 Family = "valheim",
                 Volumes = new[] { volumeConfig },
                 Cpu = 1024,
-                MemoryLimitMiB = 2048,
-                
+                MemoryLimitMiB = 2048
             });
 
             var containerDefinition = taskDefinition.AddContainer("ValheimContainer", new ContainerDefinitionProps
@@ -63,7 +64,14 @@ namespace Valheim
                 {
                     StreamPrefix = "ValheimContainer",
                     LogRetention = RetentionDays.ONE_WEEK
-                })
+                }), 
+                Environment = new Dictionary<string, string>
+                {
+                    { "PORT", "2456" },
+                    { "WORLD", props.World },
+                    { "NAME", props.Name },
+                    { "PASSWORD", props.Password }
+                }
             });
 
             containerDefinition.AddMountPoints(new MountPoint
