@@ -70,7 +70,8 @@ namespace Valheim
                     { "SERVER_PORT", "2456" },
                     { "SERVER_NAME", props.World },
                     { "WORLD_NAME", props.Name },
-                    { "SERVER_PASS", props.Password }
+                    { "SERVER_PASS", props.Password },
+                    { "SERVER_ARGS", "-crossplay" }
                 }
             });
 
