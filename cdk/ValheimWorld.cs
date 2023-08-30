@@ -71,7 +71,7 @@ namespace Valheim
                     { "SERVER_NAME", props.World },
                     { "WORLD_NAME", props.Name },
                     { "SERVER_PASS", props.Password },
-                    { "SERVER_ARGS", "-crossplay" }
+                    //{ "SERVER_ARGS", "-crossplay" }
                 }
             });
 
