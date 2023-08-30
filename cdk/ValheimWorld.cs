@@ -44,58 +44,58 @@ namespace Valheim
                 }
             };
 
-            //var taskDefinition = new FargateTaskDefinition(this, "ValheimTask", new FargateTaskDefinitionProps
-            //{
-            //    Family = "valheim",
-            //    Volumes = new[] { volumeConfig },
-            //    Cpu = 1024,
-            //    MemoryLimitMiB = 2048
-            //});
+            var taskDefinition = new FargateTaskDefinition(this, "ValheimTask", new FargateTaskDefinitionProps
+            {
+                Family = "valheim",
+                Volumes = new[] { volumeConfig },
+                Cpu = 1024,
+                MemoryLimitMiB = 2048
+            });
 
-            //var containerDefinition = taskDefinition.AddContainer("ValheimContainer", new ContainerDefinitionProps
-            //{
-            //    Image = ContainerImage.FromRegistry("lloesche/valheim-server"),
-            //    Logging = LogDriver.AwsLogs(new AwsLogDriverProps
-            //    {
-            //        StreamPrefix = "ValheimContainer",
-            //        LogRetention = RetentionDays.ONE_DAY
-            //    }), 
-            //    Environment = new Dictionary<string, string>
-            //    {
-            //        { "SERVER_PORT", "2456" },
-            //        { "SERVER_NAME", props.World },
-            //        { "WORLD_NAME", props.Name },
-            //        { "SERVER_PASS", props.Password },
-            //        { "SERVER_ARGS", "-crossplay" }
-            //    }
-            //});
+            var containerDefinition = taskDefinition.AddContainer("ValheimContainer", new ContainerDefinitionProps
+            {
+                Image = ContainerImage.FromRegistry("lloesche/valheim-server"),
+                Logging = LogDriver.AwsLogs(new AwsLogDriverProps
+                {
+                    StreamPrefix = "ValheimContainer",
+                    LogRetention = RetentionDays.ONE_DAY
+                }),
+                Environment = new Dictionary<string, string>
+                {
+                    { "SERVER_PORT", "2456" },
+                    { "SERVER_NAME", props.World },
+                    { "WORLD_NAME", props.Name },
+                    { "SERVER_PASS", props.Password },
+                    { "SERVER_ARGS", "-crossplay" }
+                }
+            });
 
-            //containerDefinition.AddMountPoints(new MountPoint
-            //{
-            //    ContainerPath = "/config",
-            //    SourceVolume = volumeConfig.Name,
-            //    ReadOnly = false
-            //});
+            containerDefinition.AddMountPoints(new MountPoint
+            {
+                ContainerPath = "/config",
+                SourceVolume = volumeConfig.Name,
+                ReadOnly = false
+            });
 
-            //var cluster = new Cluster(this, "ValheimCluster", new ClusterProps
-            //{
-            //    Vpc = vpc
-            //});
+            var cluster = new Cluster(this, "ValheimCluster", new ClusterProps
+            {
+                Vpc = vpc
+            });
 
-            //var service = new FargateService(this, "ValheimService", new FargateServiceProps
-            //{
-            //    Cluster = cluster,
-            //    AssignPublicIp = true,
-            //    TaskDefinition = taskDefinition,
-            //    DesiredCount = 1
-            //});
+            var service = new FargateService(this, "ValheimService", new FargateServiceProps
+            {
+                Cluster = cluster,
+                AssignPublicIp = true,
+                TaskDefinition = taskDefinition,
+                DesiredCount = 1
+            });
 
-            //// Allow TCP 2049 for EFS
-            //service.Connections.AllowFrom(fileSystem, Port.Tcp(2049));
-            //service.Connections.AllowTo(fileSystem, Port.Tcp(2049));
+            // Allow TCP 2049 for EFS
+            service.Connections.AllowFrom(fileSystem, Port.Tcp(2049));
+            service.Connections.AllowTo(fileSystem, Port.Tcp(2049));
 
-            //// Allow UDP 2456-2458 for Valheim
-            //service.Connections.AllowFromAnyIpv4(Port.UdpRange(2456, 2458), "Allow Valheim Traffic");
+            // Allow UDP 2456-2458 for Valheim
+            service.Connections.AllowFromAnyIpv4(Port.UdpRange(2456, 2458), "Allow Valheim Traffic");
         }
     }
 }
