@@ -27,44 +27,26 @@ namespace Valheim
                 IsDefault = true
             });
 
-            //var fileSystem = new Amazon.CDK.AWS.EFS.FileSystem(this, "ValheimFileSystem", new FileSystemProps
-            //{
-            //    Vpc = vpc,
-            //    RemovalPolicy = RemovalPolicy.DESTROY,
-            //    LifecyclePolicy = LifecyclePolicy.AFTER_14_DAYS,
-            //    Encrypted = false
-            //});
-
-            //var volumeConfig = new Amazon.CDK.AWS.ECS.Volume
-            //{
-            //    Name = "ValheimVolume",
-            //    EfsVolumeConfiguration = new EfsVolumeConfiguration
-            //    {
-            //        FileSystemId = fileSystem.FileSystemId
-            //    }
-            //};
-
-            var fileSystem2 = new Amazon.CDK.AWS.EFS.FileSystem(this, "ValheimFileSystem2", new FileSystemProps
+            var fileSystem = new Amazon.CDK.AWS.EFS.FileSystem(this, "ValheimFileSystem", new FileSystemProps
             {
                 Vpc = vpc,
-                RemovalPolicy = RemovalPolicy.DESTROY,
-                LifecyclePolicy = LifecyclePolicy.AFTER_14_DAYS,
+                RemovalPolicy = RemovalPolicy.RETAIN,
                 Encrypted = false
             });
 
-            var volumeConfig2 = new Amazon.CDK.AWS.ECS.Volume
+            var volumeConfig = new Amazon.CDK.AWS.ECS.Volume
             {
-                Name = "ValheimVolume2",
+                Name = "ValheimVolume",
                 EfsVolumeConfiguration = new EfsVolumeConfiguration
                 {
-                    FileSystemId = fileSystem2.FileSystemId
+                    FileSystemId = fileSystem.FileSystemId
                 }
-            };
+            };            
 
             var taskDefinition = new FargateTaskDefinition(this, "ValheimTask", new FargateTaskDefinitionProps
             {
                 Family = "valheim",
-                Volumes = new[] { volumeConfig2 },
+                Volumes = new[] { volumeConfig },
                 Cpu = 1024,
                 MemoryLimitMiB = 2048
             });
@@ -90,7 +72,7 @@ namespace Valheim
             containerDefinition.AddMountPoints(new MountPoint
             {
                 ContainerPath = "/config",
-                SourceVolume = volumeConfig2.Name,
+                SourceVolume = volumeConfig.Name,
                 ReadOnly = false
             });
 
@@ -108,8 +90,8 @@ namespace Valheim
             });
 
             // Allow TCP 2049 for EFS
-            service.Connections.AllowFrom(fileSystem2, Port.Tcp(2049));
-            service.Connections.AllowTo(fileSystem2, Port.Tcp(2049));
+            service.Connections.AllowFrom(fileSystem, Port.Tcp(2049));
+            service.Connections.AllowTo(fileSystem, Port.Tcp(2049));
 
             // Allow UDP 2456-2458 for Valheim
             service.Connections.AllowFromAnyIpv4(Port.UdpRange(2456, 2458), "Allow Valheim Traffic");
