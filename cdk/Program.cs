@@ -24,6 +24,7 @@ namespace Valheim
                     Account = accountId,
                     Region = "us-west-2"
                 }, 
+                Description = "A stack which contains a Valheim multiplayer server using ECS/Docker",
                 World = world,
                 Name = name,
                 Password = password,
