@@ -1,5 +1,5 @@
 {
-  "app": "dotnet run --project cdk/Cdk.csproj",
+  "app": "dotnet run --project cdk/Valheim.csproj",
   "watch": {
     "include": [
       "**"
@@ -15,6 +15,10 @@
     ]
   },
   "context": {
+    "AccountId": "#{AWS_ACCOUNT_ID}#",
+    "World": "#{World}#",
+    "Name": "#{Name}#",
+    "Password": "#{Password}#",
     "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
     "@aws-cdk/core:checkSecretUsage": true,
     "@aws-cdk/core:target-partitions": [
