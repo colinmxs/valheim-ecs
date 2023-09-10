@@ -48,7 +48,7 @@ namespace Valheim
                 Family = "valheim",
                 Volumes = new[] { volumeConfig },
                 Cpu = 2048,
-                MemoryLimitMiB = 8192
+                MemoryLimitMiB = 2048
             });
 
             var containerDefinition = taskDefinition.AddContainer("ValheimContainer", new ContainerDefinitionProps
