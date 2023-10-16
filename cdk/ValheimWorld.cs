@@ -14,6 +14,7 @@ namespace Valheim
 {
     public class ValheimWorldProps
     {
+        public bool IsOn { get; set; } = true;
         public string Name { get; set; }
         public string World { get; set; }
         public string Password { get; set; }
@@ -47,8 +48,8 @@ namespace Valheim
             {
                 Family = "valheim",
                 Volumes = new[] { volumeConfig },
-                Cpu = 2048,
-                MemoryLimitMiB = 8192
+                Cpu = 1024,
+                MemoryLimitMiB = 2048
             });
 
             var containerDefinition = taskDefinition.AddContainer("ValheimContainer", new ContainerDefinitionProps
@@ -86,7 +87,7 @@ namespace Valheim
                 Cluster = cluster,
                 AssignPublicIp = true,
                 TaskDefinition = taskDefinition,
-                DesiredCount = 1
+                DesiredCount = props.IsOn ? 1 : 0
             });
 
             // Allow TCP 2049 for EFS

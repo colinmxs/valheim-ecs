@@ -14,6 +14,7 @@ namespace Valheim
     {
         public class MainStackProps : StackProps
         {
+            public bool IsOn { get; set; } = true;
             public string World { get; set; }
             public string Name { get; set; }
             public string Password { get; set; }
@@ -22,6 +23,7 @@ namespace Valheim
         {
             var world = new ValheimWorld(this, "ValheimWorld", new ValheimWorldProps 
             {
+                IsOn = props.IsOn,
                 World = props.World,
                 Name = props.Name,
                 Password = props.Password
