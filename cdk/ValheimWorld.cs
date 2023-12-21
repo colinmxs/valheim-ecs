@@ -48,7 +48,7 @@ namespace Valheim
             {
                 Family = "valheim",
                 Volumes = new[] { volumeConfig },
-                Cpu = 1024,
+                Cpu = 512,
                 MemoryLimitMiB = 4096
             });
 
