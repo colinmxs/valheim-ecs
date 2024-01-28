@@ -14,7 +14,7 @@ namespace Valheim
     {
         public class MainStackProps : StackProps
         {
-            public bool IsOn { get; set; } = false;
+            public bool IsOn { get; set; } = true;
             public string World { get; set; }
             public string Name { get; set; }
             public string Password { get; set; }
